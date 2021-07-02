@@ -30,6 +30,8 @@ class RingBuffer{
         unsigned capacity;
         unsigned headIdx;
         unsigned tailIdx;
+#ifdef FULL_FLAG_IMPLEMENTATION
         unsigned full;
+#endif
         unsigned *buffer;
 };
