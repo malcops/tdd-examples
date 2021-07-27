@@ -9,19 +9,20 @@
  -> know the max capacity of the buffer
 */
 
+template <typename T>
 class RingBuffer{
 
     public:
         RingBuffer(unsigned length);
         ~RingBuffer();
         void printBuffer();
-        void insert(unsigned val);
-        unsigned pop();
+        void insert(T val);
+        T pop();
         bool bufferEmpty();
         bool bufferFull();
         unsigned numberOfElements();
         unsigned maxCapacity();
-        unsigned getBufferAt(unsigned idx);
+        T getBufferAt(unsigned idx);
         unsigned getHeadIdx();
         unsigned getTailIdx();
         void resetBuffer();
@@ -31,5 +32,5 @@ class RingBuffer{
         unsigned headIdx;
         unsigned tailIdx;
         unsigned full;
-        unsigned *buffer;
+        T *buffer;
 };

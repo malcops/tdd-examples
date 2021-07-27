@@ -1,8 +1,9 @@
 #include "RingBuffer.hpp"
 #include "gtest/gtest.h"
 
+
 TEST(TestRingBuffer, initialize){
-    RingBuffer rb = RingBuffer(5);
+    RingBuffer<unsigned> rb = RingBuffer<unsigned>(5);
     ASSERT_EQ(rb.getHeadIdx(), 0);
     ASSERT_EQ(rb.getTailIdx(), 0);
     ASSERT_TRUE(rb.bufferEmpty());
@@ -12,7 +13,7 @@ TEST(TestRingBuffer, initialize){
 }
 
 TEST(TestRingBuffer, insert1Value){
-    RingBuffer rb = RingBuffer(5);
+    RingBuffer<unsigned> rb = RingBuffer<unsigned>(5);
     unsigned x = 1;
     rb.insert(x);
     ASSERT_EQ(rb.getBufferAt(0), x);
@@ -24,7 +25,7 @@ TEST(TestRingBuffer, insert1Value){
 }
 
 TEST(TestRingBuffer, insert5Values){
-    RingBuffer rb = RingBuffer(5);
+    RingBuffer<unsigned> rb = RingBuffer<unsigned>(5);
     unsigned x = 1;
     unsigned y = 2;
     unsigned z = 3;
@@ -48,7 +49,7 @@ TEST(TestRingBuffer, insert5Values){
 }
 
 TEST(TestRingBuffer, insert1ValuePop1Value){
-    RingBuffer rb = RingBuffer(5);
+    RingBuffer<unsigned> rb = RingBuffer<unsigned>(5);
     unsigned x = 1;
     rb.insert(x);
     ASSERT_EQ(rb.pop(), x);
@@ -60,7 +61,7 @@ TEST(TestRingBuffer, insert1ValuePop1Value){
 }
 
 TEST(TestRingBuffer, insert5ValuesPop5Values){
-    RingBuffer rb = RingBuffer(5);
+    RingBuffer<unsigned> rb = RingBuffer<unsigned>(5);
     unsigned x = 1;
     unsigned y = 2;
     unsigned z = 3;
@@ -86,7 +87,7 @@ TEST(TestRingBuffer, insert5ValuesPop5Values){
 }
 
 TEST(TestRingBuffer, insert5ValuesAndReset){
-    RingBuffer rb = RingBuffer(5);
+    RingBuffer<unsigned> rb = RingBuffer<unsigned>(5);
     unsigned x = 1;
     unsigned y = 2;
     unsigned z = 3;
@@ -97,7 +98,6 @@ TEST(TestRingBuffer, insert5ValuesAndReset){
     rb.insert(z);
     rb.insert(j);
     rb.insert(k);
-
     rb.resetBuffer();
     ASSERT_EQ(rb.getHeadIdx(), 0);
     ASSERT_EQ(rb.getTailIdx(), 0);
@@ -105,6 +105,18 @@ TEST(TestRingBuffer, insert5ValuesAndReset){
     ASSERT_FALSE(rb.bufferFull());
     ASSERT_EQ(rb.maxCapacity(), 5);
     ASSERT_EQ(rb.numberOfElements(), 0);
+}
+
+TEST(TestRingBufferFloat, insert1Value){
+    RingBuffer<float> rb = RingBuffer<float>(5);
+    float x = 1.2;
+    rb.insert(x);
+    ASSERT_EQ(rb.getBufferAt(0), x);
+    ASSERT_EQ(rb.getHeadIdx(), 0);
+    ASSERT_EQ(rb.getTailIdx(), 1);
+    ASSERT_FALSE(rb.bufferEmpty());
+    ASSERT_FALSE(rb.bufferFull());
+    ASSERT_EQ(rb.numberOfElements(), 1);
 }
 
 int main(int argc, char **argv) {

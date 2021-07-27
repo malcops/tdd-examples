@@ -2,19 +2,22 @@
 #include <iostream>
 #include <assert.h>
 
-RingBuffer::RingBuffer(unsigned length){
-    buffer = new unsigned[length]();
+template <typename T>
+RingBuffer<T>::RingBuffer(unsigned length){
+    buffer = new T[length]();
     capacity = length;
     headIdx = 0;
     tailIdx = 0;
     full = 0;
 }
 
-RingBuffer::~RingBuffer(){
+template <typename T>
+RingBuffer<T>::~RingBuffer(){
     delete[] buffer;
 }
 
-void RingBuffer::printBuffer(){
+template <typename T>
+void RingBuffer<T>::printBuffer(){
     std::cout << "full:  " << this->bufferFull() << std::endl;
     std::cout << "empty: " << this->bufferEmpty() << std::endl;
     for (auto it = 0; it < capacity; it++){
@@ -31,7 +34,8 @@ void RingBuffer::printBuffer(){
     std::cout << std::endl;
 }
 
-void RingBuffer::insert(unsigned val){
+template <typename T>
+void RingBuffer<T>::insert(T val){
     assert(!this->bufferFull());
     buffer[tailIdx] = val;
     tailIdx++;
@@ -41,7 +45,8 @@ void RingBuffer::insert(unsigned val){
     }
 }
 
-unsigned RingBuffer::pop(){
+template <typename T>
+T RingBuffer<T>::pop(){
     assert(!this->bufferEmpty());
     unsigned retVal = buffer[headIdx];
     headIdx++;
@@ -50,15 +55,18 @@ unsigned RingBuffer::pop(){
     return retVal;
 }
 
-bool RingBuffer::bufferEmpty(){
+template <typename T>
+bool RingBuffer<T>::bufferEmpty(){
     return (tailIdx == headIdx && !full);
 }
 
-bool RingBuffer::bufferFull(){
+template <typename T>
+bool RingBuffer<T>::bufferFull(){
     return full;
 }
 
-unsigned RingBuffer::numberOfElements(){
+template <typename T>
+unsigned RingBuffer<T>::numberOfElements(){
     if (full){
         return capacity;
     } else{
@@ -66,25 +74,34 @@ unsigned RingBuffer::numberOfElements(){
     }
 }
 
-unsigned RingBuffer::maxCapacity(){
+template <typename T>
+unsigned RingBuffer<T>::maxCapacity(){
     return capacity;
 }
 
-unsigned RingBuffer::getBufferAt(unsigned idx){
+template<typename T>
+T RingBuffer<T>::getBufferAt(unsigned idx){
     assert(idx < this->maxCapacity());
     return buffer[idx];
 }
 
-unsigned RingBuffer::getHeadIdx(){
+template <typename T>
+unsigned RingBuffer<T>::getHeadIdx(){
     return headIdx;
 }
 
-unsigned RingBuffer::getTailIdx(){
+template <typename T>
+unsigned RingBuffer<T>::getTailIdx(){
     return tailIdx;
 }
 
-void RingBuffer::resetBuffer(){
+template <typename T>
+void RingBuffer<T>::resetBuffer(){
     headIdx = 0;
     tailIdx = 0;
     full = 0;
 }
+
+
+template class RingBuffer<unsigned>;
+template class RingBuffer<float>;
